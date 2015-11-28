@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd ">
+
+	<!-- 不加密 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 开发环境配置 -->
+				<value>classpath:/dev/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 加密 -->
+	<!-- <bean class="com.bit.ss.util.EncryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				测试环境
+				<value>classpath:/local/jdbc.properties</value>
+				生产环境
+				<value>classpath:/product/jdbc.properties</value>
+			</list>
+		</property>
+	</bean> -->
+
+	<!-- spring 扫描 -->
+	<context:component-scan base-package="com.bit.ss.*" />
+
+	<!-- datasources -->
+	<bean id="dataSourceRead" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+		init-method="init" destroy-method="close">
+		<property name="uniqueResourceName" value="dsR" />
+		<property name="xaDataSourceClassName"
+			value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+		<property name="xaProperties">
+			<props>
+				<prop key="url">${jdbc.url.read}</prop>
+				<prop key="user">${jdbc.username.read}</prop>
+				<prop key="password">${jdbc.password.read}</prop>
+			</props>
+		</property>
+		<property name="minPoolSize" value="10" />
+		<property name="maxPoolSize" value="100" />
+		<property name="borrowConnectionTimeout" value="30" />
+		<property name="testQuery" value="select 1" />
+		<property name="maintenanceInterval" value="60" />
+	</bean>
+
+	<bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceRead" />
+		<property name="configLocation">
+			<value>classpath:mybatis.xml</value>
+		</property>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.bit.ss.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
+	</bean>
+
+	<!-- jta -->
+	<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager">
+			<bean class="com.atomikos.icatch.jta.UserTransactionManager"
+				init-method="init" destroy-method="close">
+				<property name="forceShutdown" value="true" />
+			</bean>
+		</property>
+		<property name="userTransaction">
+			<bean class="com.atomikos.icatch.jta.UserTransactionImp" />
+		</property>
+	</bean>
+
+	<!-- AOP -->
+	<tx:advice id="advice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" />
+			<tx:method name="apply*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="allServiceMethod"
+			expression="execution(* com.bit.ss.service.*.*(..))" />
+		<aop:advisor pointcut-ref="allServiceMethod" advice-ref="advice" />
+	</aop:config>
+</beans>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd ">
+		
+		<!-- 测试 -->
+		<!-- <bean name="/test"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="test" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ITest" />
+		</bean> -->
+		
+		<!-- 校方新闻爬虫服务 -->
+		<bean name="/CampusNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="CampusNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 生活琐事爬虫服务 -->
+		<bean name="/DailyStuffSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="DailyStuffSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 教育教学爬虫服务 -->
+		<bean name="/EducationNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="EducationNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 人事公告爬虫服务 -->
+		<bean name="/HMSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="HMSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 主页新闻爬虫服务 -->
+		<bean name="/IndexNewsSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="IndexNewsSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 外事交流爬虫服务 -->
+		<bean name="/InternationComSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="InternationComSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 就业信息爬虫服务 -->
+		<bean name="/JobNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="JobNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 教务处爬虫服务 -->
+		<bean name="/JWCNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="JWCNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 讲座预告爬虫服务 -->
+		<bean name="/LectureSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="LectureSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 网络通告爬虫服务 -->
+		<bean name="/NetworkNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="NetworkNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 行政办公爬虫服务 -->
+		<bean name="/OfficeWorkSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="OfficeWorkSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 研究生招生爬虫服务 -->
+		<bean name="/PostGraduateEnrollSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="PostGraduateEnrollSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 学术研究爬虫服务 -->
+		<bean name="/ScienceStudyNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="ScienceStudyNoticeSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 学工事物爬虫服务 -->
+		<bean name="/StudentStuffSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="StudentStuffSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+		
+		<!-- 本科生招生爬虫服务 -->
+		<bean name="/UnderGraduateEnrollSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="UnderGraduateEnrollSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
+</beans>
