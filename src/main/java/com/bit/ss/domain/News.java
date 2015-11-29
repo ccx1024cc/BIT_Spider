@@ -23,7 +23,6 @@ public class News {
 	private String url;
 
 	public News() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public News(String title, Date pubTime, int type, String url,String content) {
