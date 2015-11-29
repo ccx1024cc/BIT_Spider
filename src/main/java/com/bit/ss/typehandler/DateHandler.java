@@ -9,7 +9,6 @@ import java.util.Date;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bit.ss.util.DateUtil;
@@ -25,8 +24,7 @@ import com.bit.ss.util.DateUtil;
 @Component
 public class DateHandler extends BaseTypeHandler<Date>{
 
-	@Autowired
-	DateUtil dateUtil;
+	private DateUtil dateUtil = new DateUtil();
 	
 	@Override
 	public void setNonNullParameter(PreparedStatement arg0, int arg1, Date arg2, JdbcType arg3) throws SQLException {

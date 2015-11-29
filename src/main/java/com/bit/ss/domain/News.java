@@ -19,8 +19,27 @@ public class News {
 	private String title;
 	private String content;
 	private Date pubTime;
-	private int type; // 0：招生信息:，1：就业信息，2：招聘信息，3：教务处信息，4：通告，5：热点新闻
 	private String url;
+
+	/*
+	 * 消息种类代码
+	 * 0	新闻快讯
+	 * 1	教务处通知
+	 * 2	校方通知
+	 * 3	招聘就业
+	 * 4	本科招生
+	 * 5	研究生招生
+	 * 6	学工事务
+	 * 7	讲座预告
+	 * 8	教育教学
+	 * 9	学术研究
+	 * 10	网络通告
+	 * 11	行政办公
+	 * 12	人事公告
+	 * 13	外事交流
+	 * 14	生活琐事
+	 */
+	private int type;
 
 	public News() {
 	}

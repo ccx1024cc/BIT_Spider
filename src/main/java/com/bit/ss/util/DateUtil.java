@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
-
 /**   
  * @Title: DateUtil.java 
  * @Package com.bit.ss.util 
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @date 2015年11月1日 上午11:04:25 
  * @version V1.0   
  */
-@Component
 public class DateUtil {
 
 	public static final String MONTH_FORMAT = "yyyy-MM";

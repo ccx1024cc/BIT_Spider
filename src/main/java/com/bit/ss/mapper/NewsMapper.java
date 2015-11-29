@@ -1,5 +1,7 @@
 package com.bit.ss.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.bit.ss.domain.News;
 
 /**   
@@ -10,6 +12,7 @@ import com.bit.ss.domain.News;
  * @date 2015年11月28日 下午12:11:13 
  * @version V1.0   
  */
+@Component
 public interface NewsMapper {
 
 	/**
