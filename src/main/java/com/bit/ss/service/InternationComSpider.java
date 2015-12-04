@@ -30,7 +30,7 @@ public class InternationComSpider extends SpiderSupporter {
 	}
 
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor2 = new GJJLHZCNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor3 = new GRDNoticeContentExtractor(null, httpclient);
@@ -42,7 +42,7 @@ public class InternationComSpider extends SpiderSupporter {
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				// 处理地址
@@ -91,11 +91,11 @@ public class InternationComSpider extends SpiderSupporter {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
-	//for test
+
+	// for test
 	// public static void main(String[] args) throws Exception {
 	// new InternationComSpider().crawl();
 	// }

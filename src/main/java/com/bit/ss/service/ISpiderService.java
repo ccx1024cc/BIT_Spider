@@ -27,6 +27,7 @@ public interface ISpiderService {
 	 * 12	人事公告
 	 * 13	外事交流
 	 * 14	生活琐事
+	 * 15	班车信息
 	 */
 	public final static int CODE_INDEX_NEWS = 0;
 	public final static int CODE_JWC_NOTICE = 1;
@@ -43,6 +44,7 @@ public interface ISpiderService {
 	public final static int CODE_HUMAN_RESOURCE = 12;
 	public final static int CODE_INTERNATIONAL_COM = 13;
 	public final static int CODE_DAILY_STUFF = 14;
+	public final static int CODE_SCHOOL_BUS = 15;
 
 	/**
 	 * 

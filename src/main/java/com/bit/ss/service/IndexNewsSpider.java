@@ -27,7 +27,7 @@ public class IndexNewsSpider extends SpiderSupporter {
 	}
 
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor = new XWWNewsContentExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
@@ -38,7 +38,7 @@ public class IndexNewsSpider extends SpiderSupporter {
 					href = URL + "/" + href;
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				// 如果不存在，对通知内容进行提取

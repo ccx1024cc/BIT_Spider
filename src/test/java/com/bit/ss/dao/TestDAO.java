@@ -30,7 +30,7 @@ public class TestDAO {
 		News news = new News();
 		news.setContent("This is for test");
 		news.setPubTime(new Date());
-		news.setTitle("测试二");
+		news.setTitle("测试三");
 		news.setType(-1);
 		news.setUrl("http://localhost:8080/....");
 		newsDAO.saveNews(news);
@@ -39,7 +39,7 @@ public class TestDAO {
 
 	@Test
 	public void testSelectNewsTitle() {
-		System.out.println("title:测试一     isExit:" + newsDAO.isExit("测试一"));
-		System.out.println("title:测试二     isExit:" + newsDAO.isExit("测试二"));
+		System.out.println("title:测试一     isExit:" + newsDAO.isExit("测试一", -1));
+		System.out.println("title:测试二     isExit:" + newsDAO.isExit("测试二", -1));
 	}
 }

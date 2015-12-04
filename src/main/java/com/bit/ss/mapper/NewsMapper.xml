@@ -17,6 +17,6 @@
   	
   	<select id="findTitle" resultType="java.lang.String">
   		select news_title from tbl_news
-  		where news_title = #{title};
+  		where news_title = #{title} and news_type = #{newsType};
   	</select>
   </mapper>

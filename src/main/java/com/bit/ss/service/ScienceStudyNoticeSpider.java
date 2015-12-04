@@ -19,14 +19,14 @@ import com.bit.ss.extractor.SchoolNoticeContentExtractor;
  * @version V1.0   
  */
 @Service("ScienceStudyNoticeSpider")
-public class ScienceStudyNoticeSpider extends SpiderSupporter{
+public class ScienceStudyNoticeSpider extends SpiderSupporter {
 
 	public ScienceStudyNoticeSpider() {
-		super(CODE_SCIENCE_STUDY,"http://www.bit.edu.cn/tzgg17/kyxs/index.htm" , "div.title_rtcon a");
+		super(CODE_SCIENCE_STUDY, "http://www.bit.edu.cn/tzgg17/kyxs/index.htm", "div.title_rtcon a");
 	}
-	
+
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor = new SchoolNoticeContentExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
@@ -34,7 +34,7 @@ public class ScienceStudyNoticeSpider extends SpiderSupporter{
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				// 如果不存在，对通知内容进行提取
@@ -49,11 +49,11 @@ public class ScienceStudyNoticeSpider extends SpiderSupporter{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
-	//for test
+
+	// for test
 	// public static void main(String[] args) throws Exception {
 	// new ScienceStudyNoticeSpider().crawl();
 	// }

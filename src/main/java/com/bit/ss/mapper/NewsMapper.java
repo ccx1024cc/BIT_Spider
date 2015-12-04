@@ -1,5 +1,6 @@
 package com.bit.ss.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import com.bit.ss.domain.News;
@@ -23,7 +24,7 @@ public interface NewsMapper {
 	 * @throws
 	 */
 	public int save(News news);
-	
+
 	/**
 	 * 
 	 * @Title: findTitle 
@@ -31,5 +32,5 @@ public interface NewsMapper {
 	 * @return String    返回类型 
 	 * @throws
 	 */
-	public String findTitle(String title);
+	public String findTitle(@Param("title") String title, @Param("newsType") int newsType);
 }

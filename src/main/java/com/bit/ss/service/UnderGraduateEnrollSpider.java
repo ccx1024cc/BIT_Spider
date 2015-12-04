@@ -28,7 +28,7 @@ public class UnderGraduateEnrollSpider extends SpiderSupporter {
 	}
 
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor = new AdmissionContentExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
@@ -36,7 +36,7 @@ public class UnderGraduateEnrollSpider extends SpiderSupporter {
 				String href = baseUrl + "/" + link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				// 如果不存在，对通知内容进行提取
@@ -49,7 +49,7 @@ public class UnderGraduateEnrollSpider extends SpiderSupporter {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 

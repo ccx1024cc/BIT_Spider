@@ -31,8 +31,8 @@ public abstract class ContentExtractor implements Extractor {
 	protected String url;// 内容地址地址
 	protected final CloseableHttpClient httpClient;
 
-	public final String PIC_SAVE_LOCATION = "C:\\Users\\CCX\\Desktop";// 图片保存地址
-	public final String ATTACHMENT_SAVE_LOCATION = "C:\\Users\\CCX\\Desktop"; // 附件保存地址
+	public final String PIC_SAVE_LOCATION = "C:\\Users\\12611\\Desktop";// 图片保存地址
+	public final String ATTACHMENT_SAVE_LOCATION = "C:\\Users\\12611\\Desktop"; // 附件保存地址
 	public final String PIC_REQUEST_BASE_URL = "http://localhost:8080/BIT_Spider/WEB-INF/resources/newsPics"; // 请求图片的基地址
 	public final String ATTACHMENT_REQUEST_BASE_URL = "http://localhost:8080/BIT_Spider/WEB-INF/resources/newsAttachments"; // 请求附件的基地址
 
@@ -164,6 +164,8 @@ public abstract class ContentExtractor implements Extractor {
 	 * @throws
 	 */
 	protected void prehandleBr(Elements brs) {
+		if(brs == null)
+			return;
 		for (Element br : brs) {
 			br.text("<mybr/>");
 		}

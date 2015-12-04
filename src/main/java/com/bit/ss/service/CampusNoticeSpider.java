@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
 import com.bit.ss.extractor.ContentExtractor;
+import com.bit.ss.extractor.FileExtractor;
 import com.bit.ss.extractor.GJJLHZCNoticeContentExtractor;
 import com.bit.ss.extractor.GRDNoticeContentExtractor;
 import com.bit.ss.extractor.SchoolNoticeContentExtractor;
@@ -34,13 +35,14 @@ public class CampusNoticeSpider extends SpiderSupporter {
 		ContentExtractor extractor2 = new GJJLHZCNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor3 = new GRDNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor4 = new XCBNoticeContentExtractor(null, httpclient);
+		FileExtractor extractor5 = new FileExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
 				String title = link.text();
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				// 处理地址
@@ -50,8 +52,15 @@ public class CampusNoticeSpider extends SpiderSupporter {
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
 				// 根据通知来源的不同采用不同的提取方法
+				// 如果后缀不是hml或html，则判定为流式文件
+				if (!"htm".equals(href.substring(href.lastIndexOf('.') + 1))
+						&& !"html".equals(href.substring(href.lastIndexOf('.') + 1))) {
+					extractor5.setUrl(href);
+					extractor5.setTitle(link.text());
+					content.append(extractor5.extract());
+				}
 				// 校园网本身的通知,eg. href=../jzyg2/118607.htm
-				if (href.contains("tzgg17")) {
+				else if (href.contains("tzgg17")) {
 					extractor1.setUrl(href);
 					content.append(extractor1.extract());
 				}
@@ -91,6 +100,6 @@ public class CampusNoticeSpider extends SpiderSupporter {
 
 	// for test
 	// public static void main(String[] args) throws Exception {
-	// new CampusNoticeSpiderService().crawl();
+	// new CampusNoticeSpider().crawl();
 	// }
 }

@@ -20,7 +20,7 @@ import com.bit.ss.extractor.JobContentExtractor;
  * @version V1.0   
  */
 @Service("JobNoticeSpider")
-public class JobNoticeSpider extends SpiderSupporter{
+public class JobNoticeSpider extends SpiderSupporter {
 
 	// 基地址
 	private static final String baseUrl = "http://job.bit.edu.cn/";
@@ -65,7 +65,7 @@ public class JobNoticeSpider extends SpiderSupporter{
 	}
 
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor = new JobContentExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
@@ -73,7 +73,7 @@ public class JobNoticeSpider extends SpiderSupporter{
 				String href = baseUrl + link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
 				StringBuilder content = new StringBuilder();
@@ -85,7 +85,7 @@ public class JobNoticeSpider extends SpiderSupporter{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 }

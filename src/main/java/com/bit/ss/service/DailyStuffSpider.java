@@ -20,44 +20,44 @@ import com.bit.ss.extractor.XCBNoticeContentExtractor;
  * @version V1.0   
  */
 @Service("DailyStuffSpider")
-public class DailyStuffSpider extends SpiderSupporter{
-	
+public class DailyStuffSpider extends SpiderSupporter {
+
 	public DailyStuffSpider() {
 		super(CODE_DAILY_STUFF, "http://www.bit.edu.cn/tzgg17/qttz/index.htm", "div.title_rtcon a");
 	}
-	
+
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor2 = new XCBNoticeContentExtractor(null, httpclient);
-		
+
 		for (Element link : links) {
 			try {
 				String title = link.text();
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
-				
-				//处理地址
-				if(!href.contains("http"))
+
+				// 处理地址
+				if (!href.contains("http"))
 					href = handleRelativeUrl(URL, href);
 
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
-				
+
 				// 国际交流合作处的通知，eg.
 				// href=http://xcb.bit.edu.cn/bgzn/tzgg/114161.htm
-				if(href.contains("xcb")){
+				if (href.contains("xcb")) {
 					extractor2.setUrl(href);
 					content.append(extractor2.extract());
 				}
 				// 校园网本身的通知,eg. http://www.bit.edu.cn/tzgg17/qttz/115626.htm
-				else if(href.contains("tzgg17")){
+				else if (href.contains("tzgg17")) {
 					extractor1.setUrl(href);
 					content.append(extractor1.extract());
-				}// 待扩展网站
+				} // 待扩展网站
 				else {
 					System.out.println("unknown website:" + href);
 				}
@@ -68,11 +68,11 @@ public class DailyStuffSpider extends SpiderSupporter{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
-	//for test
+
+	// for test
 	// public static void main(String[] args) throws Exception {
 	// new DailyStuffSpider().crawl();
 	// }

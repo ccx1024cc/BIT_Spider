@@ -22,14 +22,14 @@ import com.bit.ss.extractor.XCBNoticeContentExtractor;
  * @version V1.0   
  */
 @Service("HMSpider")
-public class HMSpider extends SpiderSupporter{
-	
+public class HMSpider extends SpiderSupporter {
+
 	public HMSpider() {
 		super(CODE_HUMAN_RESOURCE, "http://www.bit.edu.cn/tzgg17/rsgg/index.htm", "div.title_rtcon a");
 	}
-	
+
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor2 = new GJJLHZCNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor3 = new GRDNoticeContentExtractor(null, httpclient);
@@ -40,13 +40,13 @@ public class HMSpider extends SpiderSupporter{
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
 
-				//处理地址
-				if(!href.contains("http"))
+				// 处理地址
+				if (!href.contains("http"))
 					href = handleRelativeUrl(URL, href);
-				
+
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
 				// 根据通知来源的不同采用不同的提取方法
@@ -86,8 +86,8 @@ public class HMSpider extends SpiderSupporter{
 
 		}
 	}
-	
-	//for test
+
+	// for test
 	// public static void main(String[] args) throws Exception {
 	// new HMSpider().crawl();
 	// }

@@ -16,20 +16,20 @@ import com.bit.ss.mapper.NewsMapper;
  * @version V1.0   
  */
 @Service
-public class NewsDAOImpl implements INewsDAO{
+public class NewsDAOImpl implements INewsDAO {
 
 	@Resource
 	private NewsMapper newsMapper;
-	
+
 	@Override
 	public int saveNews(News news) {
 		return newsMapper.save(news);
 	}
-	
+
 	@Override
-	public boolean isExit(String title) {
+	public boolean isExit(String title, int newsType) {
 		boolean isExixt = false;
-		if(newsMapper.findTitle(title) != null)
+		if (newsMapper.findTitle(title, newsType) != null)
 			isExixt = true;
 		return isExixt;
 	}

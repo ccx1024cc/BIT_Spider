@@ -28,5 +28,5 @@ public interface INewsDAO {
 	 * @return boolean    返回类型 
 	 * @throws
 	 */
-	public boolean isExit(String title);
+	public boolean isExit(String title,int newsType);
 }

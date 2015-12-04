@@ -11,16 +11,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**   
- * @Title: JWCContentExtractor.java 
+ * @Title: SchoolBusExtractor.java 
  * @Package com.bit.ss.extractor 
- * @Description:  教务处内容提取器
+ * @Description:  
  * @author CCX
- * @date 2015年11月8日 下午12:56:32 
+ * @date 2015年12月4日 下午5:06:38 
  * @version V1.0   
  */
-public class JWCContentExtractor extends ContentExtractor {
 
-	public JWCContentExtractor(String url, CloseableHttpClient client) {
+public class SchoolBusExtractor extends ContentExtractor {
+
+	public SchoolBusExtractor(String url, CloseableHttpClient client) {
 		super(url, client);
 	}
 
@@ -34,26 +35,10 @@ public class JWCContentExtractor extends ContentExtractor {
 			httpResponse.close();
 			Document html = Jsoup.parse(StringEscapeUtils.unescapeHtml4(entity));
 
-			Elements content = html.select("body>table:nth-of-type(2)>tbody>tr:nth-child(3) p");
-			content.addAll(html.select("body>table:nth-of-type(2)>tbody>tr:nth-child(3) div"));
+			Elements content = html.select("body>table:nth-of-type(2)>tbody>tr:nth-child(3) div");
 			for (Element temp : content) {
 				// 判断是否是附件
-				if (!temp.select("a").isEmpty()) {
-					Elements attachments = temp.select("a");
-					for (Element attachment : attachments) {
-						// 判断是否是外部链接
-						if (attachment.attr("href").contains("http") || attachment.attr("href").contains("https")
-								|| attachment.attr("href").contains("mailto"))
-							continue;
-						String attachResult = attachHandle(attachment, url);
-						if (attachResult != null)
-							sb.append(attachResult);
-					}
-				}
-				// 正文情况
-				else {
-					sb.append(generateTextNode(temp));
-				}
+				sb.append(generateTextNode(temp));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

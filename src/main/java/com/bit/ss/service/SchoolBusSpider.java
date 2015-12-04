@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
 import com.bit.ss.extractor.ContentExtractor;
-import com.bit.ss.extractor.JWCContentExtractor;
+import com.bit.ss.extractor.SchoolBusExtractor;
 
 /**   
- * @Title: JWCSpider.java 
+ * @Title: SchoolBusSpider.java 
  * @Package com.bit.ss.service 
- * @Description:  抓取教务处通知
+ * @Description:  抽取校车信息
  * @author CCX
- * @date 2015年11月4日 下午4:15:19 
+ * @date 2015年12月4日 下午5:13:43 
  * @version V1.0   
  */
-@Service("JWCNoticeSpider")
-public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
+@Service("SchoolBusSpider")
+public class SchoolBusSpider extends SpiderSupporter implements ISpiderService {
 
-	public JWCNoticeSpider() {
-		super(CODE_JWC_NOTICE, "http://jwc.bit.edu.cn/",
+	public SchoolBusSpider() {
+		super(CODE_SCHOOL_BUS, "http://jwc.bit.edu.cn/",
 				"body>table>tbody>tr>td:nth-child(3)>table>tbody>tr:nth-child(4) a");
 	}
 
@@ -36,7 +36,8 @@ public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
 		List<Element> contentLinks = new ArrayList<>();
 		// 所有奇数项均为内容项，偶数项为目录项
 		for (int i = 0; i < links.size(); i++) {
-			if (i % 2 != 0)
+			// 校车安排的相关信息不在本类中抓取
+			if (i % 2 != 0 && links.get(i).text().contains("班车安排"))
 				contentLinks.add(links.get(i));
 		}
 
@@ -48,7 +49,7 @@ public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
 
 	@Override
 	public void saveEachNotice(Elements links) {
-		ContentExtractor extractor = new JWCContentExtractor(null, httpclient);
+		ContentExtractor extractor = new SchoolBusExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
 				String title = link.text();
@@ -72,9 +73,4 @@ public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
 
 		}
 	}
-
-	// for test
-	// public static void main(String[] args) throws Exception {
-	// new JWCNoticeSpiderService().crawl();
-	// }
 }

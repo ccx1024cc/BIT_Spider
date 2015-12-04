@@ -20,14 +20,14 @@ import com.bit.ss.extractor.SchoolNoticeContentExtractor;
  * @version V1.0   
  */
 @Service("EducationNoticeSpider")
-public class EducationNoticeSpider extends SpiderSupporter{
+public class EducationNoticeSpider extends SpiderSupporter {
 
 	public EducationNoticeSpider() {
-		super(CODE_EDUCATION,"http://www.bit.edu.cn/tzgg17/jyjx/index.htm" , "div.title_rtcon a");
+		super(CODE_EDUCATION, "http://www.bit.edu.cn/tzgg17/jyjx/index.htm", "div.title_rtcon a");
 	}
-	
+
 	@Override
-	public void saveEachNotice(Elements links){
+	public void saveEachNotice(Elements links) {
 		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
 		ContentExtractor extractor2 = new GJJLHZCNoticeContentExtractor(null, httpclient);
 		for (Element link : links) {
@@ -36,27 +36,28 @@ public class EducationNoticeSpider extends SpiderSupporter{
 				String href = link.attr("href");
 
 				// 如果存在，则跳过
-				if (newsDAO.isExit(title))
+				if (newsDAO.isExit(title, this.INFO_TYPE))
 					continue;
-				
-				//处理地址
-				if(!href.contains("http"))
+
+				// 处理地址
+				if (!href.contains("http"))
 					href = handleRelativeUrl(URL, href);
 
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
-				
+
 				// 国际交流合作处的通知，eg.
 				// href=http://www.bit.edu.cn/gbxxgk/gbgljg/yjsy/115007.htm
-				if(href.contains("gbxxgk")){
+				if (href.contains("gbxxgk")) {
 					extractor2.setUrl(href);
 					content.append(extractor2.extract());
 				}
-				// 校园网本身的通知,eg. href=http://www.bit.edu.cn/tzgg17/jyjx/118565.htm
-				else if(href.contains("tzgg17")){
+				// 校园网本身的通知,eg.
+				// href=http://www.bit.edu.cn/tzgg17/jyjx/118565.htm
+				else if (href.contains("tzgg17")) {
 					extractor1.setUrl(href);
 					content.append(extractor1.extract());
-				}// 待扩展网站
+				} // 待扩展网站
 				else {
 					System.out.println("unknown website:" + href);
 				}
@@ -67,11 +68,11 @@ public class EducationNoticeSpider extends SpiderSupporter{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
-	//for test
+
+	// for test
 	// public static void main(String[] args) throws Exception {
 	// new EducationNoticeSpider().crawl();
 	// }
