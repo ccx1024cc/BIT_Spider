@@ -138,4 +138,12 @@
 			 <property name="serviceInterface"
 			 value="com.bit.ss.service.ISpiderService" />
 		</bean>
+		
+		<!-- 校车爬虫服务 -->
+		<bean name="/SchoolBusSpider"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+			 <property name="service" ref="SchoolBusSpider" />
+			 <property name="serviceInterface"
+			 value="com.bit.ss.service.ISpiderService" />
+		</bean>
 </beans>

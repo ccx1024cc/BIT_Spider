@@ -2,7 +2,7 @@
 <!DOCTYPE configuration>
 <configuration>
     
-    <property name="LOG_HOME" value="/opt/logs"/>
+    <property name="LOG_HOME" value="/opt/logs/spiders"/>
     
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

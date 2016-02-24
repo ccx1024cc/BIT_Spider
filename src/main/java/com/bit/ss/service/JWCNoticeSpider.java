@@ -9,8 +9,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
-import com.bit.ss.extractor.ContentExtractor;
-import com.bit.ss.extractor.JWCContentExtractor;
 
 /**   
  * @Title: JWCSpider.java 
@@ -48,7 +46,7 @@ public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
 
 	@Override
 	public void saveEachNotice(Elements links) {
-		ContentExtractor extractor = new JWCContentExtractor(null, httpclient);
+//		ContentExtractor extractor = new JWCContentExtractor(null, httpclient);
 		for (Element link : links) {
 			try {
 				String title = link.text();
@@ -61,8 +59,8 @@ public class JWCNoticeSpider extends SpiderSupporter implements ISpiderService {
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
 				href = URL + "/" + href;
-				extractor.setUrl(href);
-				content.append(extractor.extract());
+				// extractor.setUrl(href);
+				// content.append(extractor.extract());
 
 				News news = new News(title, new Date(), INFO_TYPE, href, content.toString());
 				newsDAO.saveNews(news);

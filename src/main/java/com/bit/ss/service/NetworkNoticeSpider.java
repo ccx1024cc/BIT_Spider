@@ -7,9 +7,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
-import com.bit.ss.extractor.ContentExtractor;
-import com.bit.ss.extractor.FileExtractor;
-import com.bit.ss.extractor.SchoolNoticeContentExtractor;
 
 /**   
  * @Title: NetworkNoticeSpider.java 
@@ -28,8 +25,8 @@ public class NetworkNoticeSpider extends SpiderSupporter {
 
 	@Override
 	public void saveEachNotice(Elements links) {
-		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
-		FileExtractor extractor2 = new FileExtractor(null, httpclient);
+//		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
+//		FileExtractor extractor2 = new FileExtractor(null, httpclient);
 
 		for (Element link : links) {
 			try {
@@ -47,22 +44,23 @@ public class NetworkNoticeSpider extends SpiderSupporter {
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
 
-				// 如果后缀不是hml或html，则判定为流式文件
-				if (!"htm".equals(href.substring(href.lastIndexOf('.') + 1))
-						&& !"html".equals(href.substring(href.lastIndexOf('.') + 1))) {
-					extractor2.setUrl(href);
-					extractor2.setTitle(link.text());
-					content.append(extractor2.extract());
-				}
-				// 校园网本身的通知,eg.
-				// href=http://www.bit.edu.cn/tzgg17/jyjx/118565.htm
-				else if (href.contains("tzgg17")) {
-					extractor1.setUrl(href);
-					content.append(extractor1.extract());
-				} // 待扩展网站
-				else {
-					System.out.println("unknown website:" + href);
-				}
+				// // 如果后缀不是hml或html，则判定为流式文件
+				// if (!"htm".equals(href.substring(href.lastIndexOf('.') + 1))
+				// && !"html".equals(href.substring(href.lastIndexOf('.') + 1)))
+				// {
+				// extractor2.setUrl(href);
+				// extractor2.setTitle(link.text());
+				// content.append(extractor2.extract());
+				// }
+				// // 校园网本身的通知,eg.
+				// // href=http://www.bit.edu.cn/tzgg17/jyjx/118565.htm
+				// else if (href.contains("tzgg17")) {
+				// extractor1.setUrl(href);
+				// content.append(extractor1.extract());
+				// } // 待扩展网站
+				// else {
+				// System.out.println("unknown website:" + href);
+				// }
 
 				News news = new News(title, new Date(), INFO_TYPE, href, content.toString());
 				newsDAO.saveNews(news);

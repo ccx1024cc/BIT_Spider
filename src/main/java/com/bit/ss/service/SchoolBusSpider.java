@@ -9,8 +9,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
-import com.bit.ss.extractor.ContentExtractor;
-import com.bit.ss.extractor.SchoolBusExtractor;
 
 /**   
  * @Title: SchoolBusSpider.java 
@@ -24,8 +22,8 @@ import com.bit.ss.extractor.SchoolBusExtractor;
 public class SchoolBusSpider extends SpiderSupporter implements ISpiderService {
 
 	public SchoolBusSpider() {
-		super(CODE_SCHOOL_BUS, "http://jwc.bit.edu.cn/",
-				"body>table>tbody>tr>td:nth-child(3)>table>tbody>tr:nth-child(4) a");
+		super(CODE_SCHOOL_BUS, "http://jwc.bit.edu.cn/plus/list.php?tid=1",
+				"body>table>tbody>tr>td:nth-child(3)>table>tbody>tr:nth-child(3) a");
 	}
 
 	@Override
@@ -36,8 +34,8 @@ public class SchoolBusSpider extends SpiderSupporter implements ISpiderService {
 		List<Element> contentLinks = new ArrayList<>();
 		// 所有奇数项均为内容项，偶数项为目录项
 		for (int i = 0; i < links.size(); i++) {
-			// 校车安排的相关信息不在本类中抓取
-			if (i % 2 != 0 && links.get(i).text().contains("班车安排"))
+			// 抓取含有关键字“班车”的链接
+			if (links.get(i).text().contains("班车"))
 				contentLinks.add(links.get(i));
 		}
 
@@ -49,21 +47,22 @@ public class SchoolBusSpider extends SpiderSupporter implements ISpiderService {
 
 	@Override
 	public void saveEachNotice(Elements links) {
-		ContentExtractor extractor = new SchoolBusExtractor(null, httpclient);
+//		 ContentExtractor extractor = new SchoolBusExtractor(null,
+//		 httpclient);
 		for (Element link : links) {
 			try {
 				String title = link.text();
 				String href = link.attr("href");
 
-				// 如果存在，则跳过
-				if (newsDAO.isExit(title, this.INFO_TYPE))
-					continue;
+				 // 如果存在，则跳过
+				 if (newsDAO.isExit(title, this.INFO_TYPE))
+				 continue;
 
 				// 如果不存在，对通知内容进行提取
 				StringBuilder content = new StringBuilder();
-				href = URL + "/" + href;
-				extractor.setUrl(href);
-				content.append(extractor.extract());
+				href = "http://jwc.bit.edu.cn" + href;
+				// extractor.setUrl(href);
+				// content.append(extractor.extract());
 
 				News news = new News(title, new Date(), INFO_TYPE, href, content.toString());
 				newsDAO.saveNews(news);
@@ -72,5 +71,9 @@ public class SchoolBusSpider extends SpiderSupporter implements ISpiderService {
 			}
 
 		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		new SchoolBusSpider().crawl();
 	}
 }

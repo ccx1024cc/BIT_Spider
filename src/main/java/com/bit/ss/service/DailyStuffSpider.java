@@ -7,9 +7,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.bit.ss.domain.News;
-import com.bit.ss.extractor.ContentExtractor;
-import com.bit.ss.extractor.SchoolNoticeContentExtractor;
-import com.bit.ss.extractor.XCBNoticeContentExtractor;
 
 /**   
  * @Title: DailyStuffSpider.java 
@@ -28,8 +25,8 @@ public class DailyStuffSpider extends SpiderSupporter {
 
 	@Override
 	public void saveEachNotice(Elements links) {
-		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
-		ContentExtractor extractor2 = new XCBNoticeContentExtractor(null, httpclient);
+//		ContentExtractor extractor1 = new SchoolNoticeContentExtractor(null, httpclient);
+//		ContentExtractor extractor2 = new XCBNoticeContentExtractor(null, httpclient);
 
 		for (Element link : links) {
 			try {
@@ -48,19 +45,19 @@ public class DailyStuffSpider extends SpiderSupporter {
 				StringBuilder content = new StringBuilder();
 
 				// 国际交流合作处的通知，eg.
-				// href=http://xcb.bit.edu.cn/bgzn/tzgg/114161.htm
-				if (href.contains("xcb")) {
-					extractor2.setUrl(href);
-					content.append(extractor2.extract());
-				}
-				// 校园网本身的通知,eg. http://www.bit.edu.cn/tzgg17/qttz/115626.htm
-				else if (href.contains("tzgg17")) {
-					extractor1.setUrl(href);
-					content.append(extractor1.extract());
-				} // 待扩展网站
-				else {
-					System.out.println("unknown website:" + href);
-				}
+				// // href=http://xcb.bit.edu.cn/bgzn/tzgg/114161.htm
+				// if (href.contains("xcb")) {
+				// extractor2.setUrl(href);
+				// content.append(extractor2.extract());
+				// }
+				// // 校园网本身的通知,eg. http://www.bit.edu.cn/tzgg17/qttz/115626.htm
+				// else if (href.contains("tzgg17")) {
+				// extractor1.setUrl(href);
+				// content.append(extractor1.extract());
+				// } // 待扩展网站
+				// else {
+				// System.out.println("unknown website:" + href);
+				// }
 
 				News news = new News(title, new Date(), INFO_TYPE, href, content.toString());
 				newsDAO.saveNews(news);
