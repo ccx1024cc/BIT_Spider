@@ -30,7 +30,7 @@ public abstract class SpiderSupporter implements ISpiderService {
 
 	@Autowired
 	protected INewsDAO newsDAO;
-	
+
 	protected PoolingHttpClientConnectionManager cm;
 	protected CookieStore cookieStore;
 	protected RequestConfig defaultRequestConfig;
@@ -41,7 +41,7 @@ public abstract class SpiderSupporter implements ISpiderService {
 
 	protected IndexExtractor indexExtractor; // 索引链接提取器
 
-	public SpiderSupporter(int infoType, String url,String indexSelector) {
+	public SpiderSupporter(int infoType, String url, String indexSelector) {
 		cm = new PoolingHttpClientConnectionManager();
 		cm.setMaxTotal(200);
 		cm.setDefaultMaxPerRoute(20);
@@ -50,7 +50,8 @@ public abstract class SpiderSupporter implements ISpiderService {
 				.build();
 		httpclient = HttpClients.custom().setConnectionManager(cm).setDefaultCookieStore(cookieStore)
 				// .setProxy(new HttpHost("127.0.0.1", 8888)) //fiddler proxy
-				.setDefaultRequestConfig(defaultRequestConfig).setKeepAliveStrategy(new ChangePerResponse()).build();
+				.setConnectionManagerShared(true).setDefaultRequestConfig(defaultRequestConfig)
+				.setKeepAliveStrategy(new ChangePerResponse()).build();
 		this.INFO_TYPE = infoType;
 		this.URL = url; // 索引所在页的地址
 		indexExtractor = new IndexExtractor(URL, httpclient, indexSelector);
